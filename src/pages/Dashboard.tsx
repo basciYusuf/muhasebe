@@ -200,7 +200,7 @@ export default function Dashboard() {
   ];
 
   return (
-    <div>
+    <div className="space-y-6 min-h-full w-full">
       <div className="mb-8">
         <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
       </div>
@@ -234,17 +234,30 @@ export default function Dashboard() {
         )}
       </div>
 
-      <div className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
         {/* Gelir-Gider Grafiği */}
-        <div className="bg-white shadow rounded-lg p-6">
+        <div className="bg-white shadow rounded-lg p-6 relative z-0 overflow-hidden">
           <h2 className="text-lg font-medium text-gray-900 mb-4">Son 7 Günlük Gelir-Gider Grafiği</h2>
-          <div className="h-80">
+          <div className="h-80 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={chartData}>
+              <AreaChart 
+                data={chartData}
+                margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip formatter={(value) => `₺${value.toLocaleString('tr-TR')}`} />
+                <XAxis 
+                  dataKey="date"
+                  tick={{ fontSize: 12 }}
+                  tickMargin={10}
+                />
+                <YAxis 
+                  tick={{ fontSize: 12 }}
+                  tickFormatter={(value) => `₺${value.toLocaleString('tr-TR')}`}
+                />
+                <Tooltip 
+                  formatter={(value) => `₺${value.toLocaleString('tr-TR')}`}
+                  contentStyle={{ fontSize: '12px' }}
+                />
                 <Area
                   type="monotone"
                   dataKey="income"
@@ -252,6 +265,7 @@ export default function Dashboard() {
                   stroke="#10B981"
                   fill="#10B981"
                   name="Gelir"
+                  fillOpacity={0.6}
                 />
                 <Area
                   type="monotone"
@@ -260,6 +274,7 @@ export default function Dashboard() {
                   stroke="#EF4444"
                   fill="#EF4444"
                   name="Gider"
+                  fillOpacity={0.6}
                 />
               </AreaChart>
             </ResponsiveContainer>
@@ -267,7 +282,7 @@ export default function Dashboard() {
         </div>
 
         {/* Son İşlemler */}
-        <div className="bg-white shadow rounded-lg p-6">
+        <div className="bg-white shadow rounded-lg p-6 relative z-0">
           <h2 className="text-lg font-medium text-gray-900 mb-4">Son İşlemler</h2>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">

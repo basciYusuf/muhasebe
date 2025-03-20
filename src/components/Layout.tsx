@@ -136,9 +136,9 @@ export function Layout({ children }: LayoutProps) {
       )}
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col overflow-hidden relative z-0">
+      <div className="flex-1 flex flex-col overflow-hidden relative">
         {/* Header */}
-        <header className="bg-white shadow">
+        <header className="bg-white shadow-sm z-10 relative">
           <div className="flex items-center justify-between px-4 py-4">
             <button
               onClick={() => setSidebarOpen(true)}
@@ -156,8 +156,10 @@ export function Layout({ children }: LayoutProps) {
         </header>
 
         {/* Main content area */}
-        <main className="flex-1 overflow-y-auto bg-gray-50 p-4">
-          {children}
+        <main className="flex-1 overflow-y-auto bg-gray-50 p-4 relative">
+          <div className="container mx-auto max-w-7xl">
+            {children}
+          </div>
         </main>
       </div>
     </div>
