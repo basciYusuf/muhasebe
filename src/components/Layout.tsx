@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuthStore, useUIStore } from '../store';
+import { supabase } from '../services/supabase';
 import {
   HomeIcon,
   UsersIcon,
@@ -12,6 +13,7 @@ import {
   BuildingLibraryIcon,
   XMarkIcon,
   Bars3Icon,
+  ArrowRightOnRectangleIcon,
 } from '@heroicons/react/24/outline';
 
 interface LayoutProps {
@@ -101,29 +103,42 @@ export function Layout({ children }: LayoutProps) {
           </button>
         </div>
 
-        <nav className="mt-5 px-2">
-          {menuItems.map((item) => {
-            const isActive = location.pathname === item.path || 
-                           (item.path !== '/' && location.pathname.startsWith(item.path));
-            
-            return (
-              <button
-                key={item.path}
-                onClick={() => navigate(item.path)}
-                className={`mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md w-full text-left transition ease-in-out duration-150
-                  ${isActive 
-                    ? `${item.activeColor} ${item.color} font-semibold` 
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                  }`}
-              >
-                <item.icon 
-                  className={`mr-4 h-6 w-6 transition-colors duration-150
-                    ${isActive ? item.color : 'text-gray-500 group-hover:text-gray-600'}`} 
-                />
-                {item.name}
-              </button>
-            );
-          })}
+        <nav className="mt-5 px-2 flex flex-col h-[calc(100vh-80px)] justify-between">
+          <div>
+            {menuItems.map((item) => {
+              const isActive = location.pathname === item.path || 
+                             (item.path !== '/' && location.pathname.startsWith(item.path));
+              
+              return (
+                <button
+                  key={item.path}
+                  onClick={() => navigate(item.path)}
+                  className={`mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md w-full text-left transition ease-in-out duration-150
+                    ${isActive 
+                      ? `${item.activeColor} ${item.color} font-semibold` 
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                    }`}
+                >
+                  <item.icon 
+                    className={`mr-4 h-6 w-6 transition-colors duration-150
+                      ${isActive ? item.color : 'text-gray-500 group-hover:text-gray-600'}`} 
+                  />
+                  {item.name}
+                </button>
+              );
+            })}
+          </div>
+          
+          <button
+            onClick={() => {
+              supabase.auth.signOut();
+              navigate('/login');
+            }}
+            className="mb-4 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md w-full text-left transition ease-in-out duration-150 text-red-600 hover:text-red-900 hover:bg-red-50"
+          >
+            <ArrowRightOnRectangleIcon className="mr-4 h-6 w-6 text-red-500 group-hover:text-red-600" />
+            Çıkış Yap
+          </button>
         </nav>
       </div>
 
