@@ -89,7 +89,7 @@ export function Layout({ children }: LayoutProps) {
       <div
         className={`${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } fixed inset-y-0 left-0 w-64 transition duration-300 transform bg-white shadow-lg md:relative md:translate-x-0`}
+        } fixed inset-y-0 left-0 w-64 transition duration-300 transform bg-white shadow-lg md:relative md:translate-x-0 z-50`}
       >
         <div className="flex items-center justify-between p-4">
           <h1 className="text-xl font-semibold text-gray-800">Muhasebe</h1>
@@ -127,8 +127,16 @@ export function Layout({ children }: LayoutProps) {
         </nav>
       </div>
 
+      {/* Overlay for mobile */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-gray-600 bg-opacity-50 transition-opacity md:hidden z-40"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Main content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden relative z-0">
         {/* Header */}
         <header className="bg-white shadow">
           <div className="flex items-center justify-between px-4 py-4">
